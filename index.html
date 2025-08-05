@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Payment</title>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      text-align: center;
+      padding: 20px;
+    }
+    .payment-box {
+      background: white;
+      padding: 20px;
+      margin: auto;
+      border-radius: 8px;
+      width: 320px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+    }
+    .payment-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+      transition: 0.3s;
+    }
+    .payment-btn i {
+      font-size: 22px;
+      margin-right: 10px;
+    }
+    .gpay { background: #4285F4; }
+    .gpay:hover { background: #3367d6; }
+    .phonepe { background: #5f259f; }
+    .phonepe:hover { background: #4b1f7e; }
+    .paytm { background: #00b9f1; }
+    .paytm:hover { background: #0095c7; }
+    .cod { background: #28a745; }
+    .cod:hover { background: #1e7e34; }
+  </style>
+</head>
+<body>
+  <div class="payment-box">
+    <h2>Choose Payment Method</h2>
+
+    <button class="payment-btn gpay" onclick="payUPI('gpay')">
+      <i class="fab fa-google-pay"></i> Pay with Google Pay
+    </button>
+
+    <button class="payment-btn phonepe" onclick="payUPI('phonepe')">
+      <i class="fas fa-mobile-alt"></i> Pay with PhonePe
+    </button>
+
+    <button class="payment-btn paytm" onclick="payUPI('paytm')">
+      <i class="fas fa-wallet"></i> Pay with Paytm
+    </button>
+
+    <button class="payment-btn cod" onclick="cashOnDelivery()">
+      <i class="fas fa-truck"></i> Cash on Delivery
+    </button>
+  </div>
+
+  <script>
+    function payUPI(app) {
+      let upiID = "manojkannan065@oksbi";  // Replace with your real UPI ID
+      let name = "Manoj Kannan";         // Replace with your name
+      let amount = "200";            // Replace with dynamic amount
+      let transactionNote = "Order Payment";
+
+      // Create UPI link
+      let upiLink = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
+
+      // Detect app preference
+      if (app === 'gpay') {
+        window.location.href = `tez://upi/pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
+      } else if (app === 'phonepe') {
+        window.location.href = `phonepe://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
+      } else if (app === 'paytm') {
+        window.location.href = `paytmmp://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
+      } else {
+        // Fallback to generic UPI intent
+        window.location.href = upiLink;
+      }
+    }
+
+    function cashOnDelivery() {
+      alert("Your order has been placed with Cash on Delivery ✅");
+    }
+  </script>
+</body>
+</html>
